@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SimpleImageProcessing.Properties
+namespace DigitalImageProcessing.Properties
 {
 
 

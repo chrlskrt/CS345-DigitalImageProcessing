@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace SimpleImageProcessing
+namespace DigitalImageProcessing
 {
     public partial class Form1 : Form
     {
@@ -17,7 +17,6 @@ namespace SimpleImageProcessing
         {
             InitializeComponent();
         }
-
         private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
         {
             loadedImage = new Bitmap(openFileDialog1.FileName);
@@ -58,106 +57,80 @@ namespace SimpleImageProcessing
 
         private void inversionToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            processedImage = new Bitmap(loadedImage.Width, loadedImage.Height);
-            Color pixel;
-  
-            for (int x = 0; x < loadedImage.Width; x++)
-            {
-                for (int y = 0; y < loadedImage.Height; y++)
-                {
-                    pixel = loadedImage.GetPixel(x, y);
-
-                    Color inverted = Color.FromArgb(255 - pixel.R, 255 - pixel.G, 255 - pixel.B);
-                    processedImage.SetPixel(x, y, inverted);
-                }
-            }
-
+            BasicDIP.InvertImage(ref loadedImage, ref processedImage);
             pictureBox2.Image = processedImage;
         }
 
         private void sepiaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            processedImage = new Bitmap(loadedImage.Width, loadedImage.Height);
-            Color pixel;
-            for (int x = 0; x < loadedImage.Width; x++)
-            {
-                for (int y = 0; y < loadedImage.Height; y++)
-                {
-                    pixel = loadedImage.GetPixel(x, y);
-                    
-                    int new_red = (int)((pixel.R * .393) + (pixel.G * .769) + (pixel.B * .189));
-                    int new_green = (int)((pixel.R * .349) + (pixel.G * .686) + (pixel.B * .168));
-                    int new_blue = (int)((pixel.R * .272) + (pixel.G * .534) + (pixel.B * .131));
-
-                    new_red = (new_red > 255) ? 255 : new_red;
-                    new_green = (new_green > 255) ? 255 : new_green;
-                    new_blue = (new_blue > 255) ? 255 : new_blue;
-
-                    Color sepia_pixel = Color.FromArgb(new_red, new_green, new_blue);
-                    processedImage.SetPixel(x, y, sepia_pixel);
-                }
-            }
-
+            BasicDIP.SepiaImage(ref loadedImage, ref processedImage);
             pictureBox2.Image = processedImage;
         }
 
         private void mirrorHorizontalToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            processedImage = new Bitmap(loadedImage.Width, loadedImage.Height);
-            Color pixel;
-            int width = loadedImage.Width;
-            int height = loadedImage.Height;
-
-            for (int x = 0; x < width; x++)
-            {
-                for (int y = 0; y < height; y++)
-                {
-                    pixel = loadedImage.GetPixel(x, y);
-
-                    processedImage.SetPixel(width - x - 1, y, pixel);
-                }
-            }
-
+            BasicDIP.MirrorImageHorizantal(ref loadedImage, ref processedImage);
             pictureBox2.Image = processedImage;
         }
 
         private void mirrorVerticalToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            processedImage = new Bitmap(loadedImage.Width, loadedImage.Height);
-            Color pixel;
-            int width = loadedImage.Width;
-            int height = loadedImage.Height;
-
-            for (int x = 0; x < width; x++)
-            {
-                for (int y = 0; y < height; y++)
-                {
-                    pixel = loadedImage.GetPixel(x, y);
-
-                    processedImage.SetPixel(x, height - y - 1, pixel);
-                }
-            }
-
+            BasicDIP.MirrorImageVertical(ref loadedImage, ref processedImage);
             pictureBox2.Image = processedImage;
+        }
+
+        private void histogramToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            BasicDIP.Histogram(ref loadedImage, ref processedImage);
+            pictureBox2.Image = processedImage;
+        }
+
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            BasicDIP.Brightness(ref loadedImage, ref processedImage, brightnessTB.Value);
+            pictureBox2.Image = processedImage;
+        }
+
+        private void brightnessToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (brightnessTB.Visible)
+            {
+                brightnessLBL.Visible = false;
+                brightnessTB.Visible = false;
+            } else
+            {
+                brightnessLBL.Visible = true;
+                brightnessTB.Visible = true;
+            }
+        }
+
+        private void contrastToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (contrastTB.Visible)
+            {
+                contrastLBL.Visible = false;
+                contrastTB.Visible = false;
+            } else
+            {
+                contrastLBL.Visible = true;
+                contrastTB.Visible = true;
+            }
+        }
+
+        private void contrastTB_Scroll(object sender, EventArgs e)
+        {
+            BasicDIP.Contrast(ref loadedImage, ref processedImage, contrastTB.Value);
+            pictureBox2.Image = processedImage;
+        }
+
+        private void trackBar1_Scroll_1(object sender, EventArgs e)
+        {
+
         }
 
         private void greyscaleToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            processedImage = new Bitmap(loadedImage.Width, loadedImage.Height);
-            Color pixel;
-            int grey;
-            for (int x = 0; x < loadedImage.Width; x++)
-            {
-                for (int y = 0; y < loadedImage.Height; y++)
-                {
-                    pixel = loadedImage.GetPixel(x, y);
-                    grey = (int)(pixel.R + pixel.G + pixel.B) / 3;
-
-                    Color grey_pixel = Color.FromArgb(grey, grey, grey);
-                    processedImage.SetPixel(x, y, grey_pixel);
-                }
-            }
-
+            BasicDIP.GreyscaleImage(ref loadedImage, ref processedImage);
             pictureBox2.Image = processedImage;
         }
     }

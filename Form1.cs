@@ -7,15 +7,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SimpleImageProcessing;
 
 namespace DigitalImageProcessing
 {
     public partial class Form1 : Form
     {
         Bitmap loadedImage, processedImage;
+        private SubtractForm subForm;
         public Form1()
         {
             InitializeComponent();
+            subForm = new SubtractForm();
         }
         private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
         {
@@ -126,6 +129,13 @@ namespace DigitalImageProcessing
         private void trackBar1_Scroll_1(object sender, EventArgs e)
         {
 
+        }
+
+        private void subtractToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            subForm.Owner = this;
+            subForm.Show();
+            this.Hide();
         }
 
         private void greyscaleToolStripMenuItem_Click(object sender, EventArgs e)

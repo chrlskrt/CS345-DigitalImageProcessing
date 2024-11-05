@@ -42,6 +42,11 @@
             this.histogramToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.brightnessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contrastToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.videoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.greyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.webCamVidToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.oNToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.oFFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -53,11 +58,7 @@
             this.contrastTB = new System.Windows.Forms.TrackBar();
             this.rotationLBL = new System.Windows.Forms.Label();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
-            this.videoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.greyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.webCamVidToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.oNToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.oFFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.subtractToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -92,14 +93,14 @@
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(128, 26);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(128, 26);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
@@ -114,7 +115,8 @@
             this.sepiaToolStripMenuItem,
             this.histogramToolStripMenuItem,
             this.brightnessToolStripMenuItem,
-            this.contrastToolStripMenuItem});
+            this.contrastToolStripMenuItem,
+            this.subtractToolStripMenuItem});
             this.dIPToolStripMenuItem.Name = "dIPToolStripMenuItem";
             this.dIPToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.dIPToolStripMenuItem.Text = "DIP";
@@ -122,65 +124,100 @@
             // pixelCopyToolStripMenuItem
             // 
             this.pixelCopyToolStripMenuItem.Name = "pixelCopyToolStripMenuItem";
-            this.pixelCopyToolStripMenuItem.Size = new System.Drawing.Size(223, 26);
+            this.pixelCopyToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.pixelCopyToolStripMenuItem.Text = "Pixel Copy";
             this.pixelCopyToolStripMenuItem.Click += new System.EventHandler(this.pixelCopyToolStripMenuItem_Click);
             // 
             // greyscaleToolStripMenuItem
             // 
             this.greyscaleToolStripMenuItem.Name = "greyscaleToolStripMenuItem";
-            this.greyscaleToolStripMenuItem.Size = new System.Drawing.Size(223, 26);
+            this.greyscaleToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.greyscaleToolStripMenuItem.Text = "Greyscale";
             this.greyscaleToolStripMenuItem.Click += new System.EventHandler(this.greyscaleToolStripMenuItem_Click);
             // 
             // inversionToolStripMenuItem
             // 
             this.inversionToolStripMenuItem.Name = "inversionToolStripMenuItem";
-            this.inversionToolStripMenuItem.Size = new System.Drawing.Size(223, 26);
+            this.inversionToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.inversionToolStripMenuItem.Text = "Inversion";
             this.inversionToolStripMenuItem.Click += new System.EventHandler(this.inversionToolStripMenuItem_Click);
             // 
             // mirrorHorizontalToolStripMenuItem
             // 
             this.mirrorHorizontalToolStripMenuItem.Name = "mirrorHorizontalToolStripMenuItem";
-            this.mirrorHorizontalToolStripMenuItem.Size = new System.Drawing.Size(223, 26);
+            this.mirrorHorizontalToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.mirrorHorizontalToolStripMenuItem.Text = "Mirror Horizontal";
             this.mirrorHorizontalToolStripMenuItem.Click += new System.EventHandler(this.mirrorHorizontalToolStripMenuItem_Click);
             // 
             // mirrorVerticalToolStripMenuItem
             // 
             this.mirrorVerticalToolStripMenuItem.Name = "mirrorVerticalToolStripMenuItem";
-            this.mirrorVerticalToolStripMenuItem.Size = new System.Drawing.Size(223, 26);
+            this.mirrorVerticalToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.mirrorVerticalToolStripMenuItem.Text = "Mirror Vertical";
             this.mirrorVerticalToolStripMenuItem.Click += new System.EventHandler(this.mirrorVerticalToolStripMenuItem_Click);
             // 
             // sepiaToolStripMenuItem
             // 
             this.sepiaToolStripMenuItem.Name = "sepiaToolStripMenuItem";
-            this.sepiaToolStripMenuItem.Size = new System.Drawing.Size(223, 26);
+            this.sepiaToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.sepiaToolStripMenuItem.Text = "Sepia Color Change";
             this.sepiaToolStripMenuItem.Click += new System.EventHandler(this.sepiaToolStripMenuItem_Click);
             // 
             // histogramToolStripMenuItem
             // 
             this.histogramToolStripMenuItem.Name = "histogramToolStripMenuItem";
-            this.histogramToolStripMenuItem.Size = new System.Drawing.Size(223, 26);
+            this.histogramToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.histogramToolStripMenuItem.Text = "Histogram";
             this.histogramToolStripMenuItem.Click += new System.EventHandler(this.histogramToolStripMenuItem_Click);
             // 
             // brightnessToolStripMenuItem
             // 
             this.brightnessToolStripMenuItem.Name = "brightnessToolStripMenuItem";
-            this.brightnessToolStripMenuItem.Size = new System.Drawing.Size(223, 26);
+            this.brightnessToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.brightnessToolStripMenuItem.Text = "Brightness";
             this.brightnessToolStripMenuItem.Click += new System.EventHandler(this.brightnessToolStripMenuItem_Click);
             // 
             // contrastToolStripMenuItem
             // 
             this.contrastToolStripMenuItem.Name = "contrastToolStripMenuItem";
-            this.contrastToolStripMenuItem.Size = new System.Drawing.Size(223, 26);
+            this.contrastToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.contrastToolStripMenuItem.Text = "Contrast";
             this.contrastToolStripMenuItem.Click += new System.EventHandler(this.contrastToolStripMenuItem_Click);
+            // 
+            // videoToolStripMenuItem
+            // 
+            this.videoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.greyToolStripMenuItem});
+            this.videoToolStripMenuItem.Name = "videoToolStripMenuItem";
+            this.videoToolStripMenuItem.Size = new System.Drawing.Size(62, 24);
+            this.videoToolStripMenuItem.Text = "Video";
+            // 
+            // greyToolStripMenuItem
+            // 
+            this.greyToolStripMenuItem.Name = "greyToolStripMenuItem";
+            this.greyToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.greyToolStripMenuItem.Text = "Grey";
+            // 
+            // webCamVidToolStripMenuItem
+            // 
+            this.webCamVidToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.oNToolStripMenuItem,
+            this.oFFToolStripMenuItem});
+            this.webCamVidToolStripMenuItem.Name = "webCamVidToolStripMenuItem";
+            this.webCamVidToolStripMenuItem.Size = new System.Drawing.Size(109, 24);
+            this.webCamVidToolStripMenuItem.Text = "WebCam Vid";
+            // 
+            // oNToolStripMenuItem
+            // 
+            this.oNToolStripMenuItem.Name = "oNToolStripMenuItem";
+            this.oNToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.oNToolStripMenuItem.Text = "ON";
+            // 
+            // oFFToolStripMenuItem
+            // 
+            this.oFFToolStripMenuItem.Name = "oFFToolStripMenuItem";
+            this.oFFToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.oFFToolStripMenuItem.Text = "OFF";
             // 
             // openFileDialog1
             // 
@@ -286,40 +323,12 @@
             this.trackBar1.Visible = false;
             this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll_1);
             // 
-            // videoToolStripMenuItem
+            // subtractToolStripMenuItem
             // 
-            this.videoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.greyToolStripMenuItem});
-            this.videoToolStripMenuItem.Name = "videoToolStripMenuItem";
-            this.videoToolStripMenuItem.Size = new System.Drawing.Size(62, 24);
-            this.videoToolStripMenuItem.Text = "Video";
-            // 
-            // greyToolStripMenuItem
-            // 
-            this.greyToolStripMenuItem.Name = "greyToolStripMenuItem";
-            this.greyToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.greyToolStripMenuItem.Text = "Grey";
-            // 
-            // webCamVidToolStripMenuItem
-            // 
-            this.webCamVidToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.oNToolStripMenuItem,
-            this.oFFToolStripMenuItem});
-            this.webCamVidToolStripMenuItem.Name = "webCamVidToolStripMenuItem";
-            this.webCamVidToolStripMenuItem.Size = new System.Drawing.Size(109, 24);
-            this.webCamVidToolStripMenuItem.Text = "WebCam Vid";
-            // 
-            // oNToolStripMenuItem
-            // 
-            this.oNToolStripMenuItem.Name = "oNToolStripMenuItem";
-            this.oNToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.oNToolStripMenuItem.Text = "ON";
-            // 
-            // oFFToolStripMenuItem
-            // 
-            this.oFFToolStripMenuItem.Name = "oFFToolStripMenuItem";
-            this.oFFToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.oFFToolStripMenuItem.Text = "OFF";
+            this.subtractToolStripMenuItem.Name = "subtractToolStripMenuItem";
+            this.subtractToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.subtractToolStripMenuItem.Text = "Subtract";
+            this.subtractToolStripMenuItem.Click += new System.EventHandler(this.subtractToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -383,6 +392,7 @@
         private System.Windows.Forms.ToolStripMenuItem webCamVidToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem oNToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem oFFToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem subtractToolStripMenuItem;
     }
 }
 

@@ -108,7 +108,41 @@ namespace ImageProcess2
 			return true;
 		}
 
-		public static bool Brightness(Bitmap b, int nBrightness)
+        public static void Sepia(Bitmap b)
+        {
+
+            int dstHeight = b.Height;
+            int dstWidth = b.Width;
+
+            BitmapData bmProcessed = b.LockBits(
+                new Rectangle(0, 0, dstWidth, dstHeight),
+                ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
+
+            int offSet = bmProcessed.Stride - dstWidth * 3;
+
+            unsafe
+            {
+                byte* p = (byte*)(void*)bmProcessed.Scan0;
+
+                for (int i = 0; i < dstHeight; i++)
+                {
+                    for (int j = 0; j < dstWidth; j++)
+                    {
+                        p[0] = (byte)Math.Min(255, p[2] * 0.272 + p[1] * 0.534 + p[0] * 0.131);
+                        p[1] = (byte)Math.Min(255, p[2] * 0.349 + p[1] * 0.686 + p[0] * 0.168);
+                        p[2] = (byte)Math.Min(255, p[2] * 0.393 + p[1] * 0.769 + p[0] * 0.189);
+
+                        p += 3;
+                    }
+
+                    p += offSet;
+                }
+            }
+
+            b.UnlockBits(bmProcessed);
+        }
+
+        public static bool Brightness(Bitmap b, int nBrightness)
 		{
 			if (nBrightness < -255 || nBrightness > 255)
 				return false;
@@ -385,7 +419,7 @@ namespace ImageProcess2
 			return true;
 		}
 
-		public static bool Smooth(Bitmap b, int nWeight /* default to 1 */)
+		public static bool Smooth(Bitmap b, int nWeight = 1 /* default to 1 */)
 		{
 			ConvMatrix m = new ConvMatrix();
 			m.SetAll(1);
@@ -395,7 +429,7 @@ namespace ImageProcess2
 			return  BitmapFilter.Conv3x3(b, m);
 		}
 
-		public static bool GaussianBlur(Bitmap b, int nWeight /* default to 4*/)
+		public static bool GaussianBlur(Bitmap b, int nWeight = 1 /* default to 4*/)
 		{
 			ConvMatrix m = new ConvMatrix();
 			m.SetAll(1);
@@ -405,7 +439,7 @@ namespace ImageProcess2
 
 			return  BitmapFilter.Conv3x3(b, m);
 		}
-		public static bool MeanRemoval(Bitmap b, int nWeight /* default to 9*/ )
+		public static bool MeanRemoval(Bitmap b, int nWeight = 1 /* default to 9*/ )
 		{
 			ConvMatrix m = new ConvMatrix();
 			m.SetAll(-1);
@@ -414,7 +448,7 @@ namespace ImageProcess2
 
 			return BitmapFilter.Conv3x3(b, m);
 		}
-		public static bool Sharpen(Bitmap b, int nWeight /* default to 11*/ )
+		public static bool Sharpen(Bitmap b, int nWeight = 1 /* default to 11*/ )
 		{
 			ConvMatrix m = new ConvMatrix();
 			m.SetAll(0);

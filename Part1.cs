@@ -5,8 +5,6 @@ using System.Windows.Forms;
 using ImageProcess2;
 using AForge.Video;
 using AForge.Video.DirectShow;
-using WebCamLib;
-using System.Drawing.Imaging;
 
 namespace DigitalImageProcessing
 {
@@ -17,10 +15,10 @@ namespace DigitalImageProcessing
         Inverted,
         Histogram
     }
-    public partial class Form1 : Form
+    public partial class Part1 : Form
     {
         private Bitmap loadedImage, processedImage;
-        private SubtractForm subForm;
+        private Part2 subForm;
         private bool isVideoOn = false;
         private bool isVidFilterOn = false;
         private FilterType currentFilter;
@@ -28,14 +26,14 @@ namespace DigitalImageProcessing
         private FilterInfoCollection videoDevices;  // List of available video devices
         private VideoCaptureDevice videoSource;     // Video capture device
         private readonly object imageLock = new object();   // lock for thread safety
-        public Form1()
+        public Part1()
         {
             InitializeComponent();
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            subForm = new SubtractForm();
+            subForm = new Part2();
             LoadVideoDevices();
             //devices = DeviceManager.GetAllDevices();
         }
@@ -153,7 +151,7 @@ namespace DigitalImageProcessing
             openFileDialog1.ShowDialog();
         }
 
-        //Digital Image Processing
+        //Digital Image Processing - Images
         private void pixelCopyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (loadedImage == null || isVideoOn)
@@ -183,6 +181,8 @@ namespace DigitalImageProcessing
             }
 
             BasicDIP.GreyscaleImage(ref loadedImage, ref processedImage);
+            //processedImage = (Bitmap) loadedImage.Clone();
+            //BitmapFilter.GrayScale(processedImage);
             pictureBox2.Image = processedImage;
         }
         private void inversionToolStripMenuItem_Click(object sender, EventArgs e)
@@ -299,7 +299,7 @@ namespace DigitalImageProcessing
             pictureBox2.Image = processedImage;
         }
 
-        private void subtractToolStripMenuItem_Click(object sender, EventArgs e)
+        private void btnGoToPart2_Click(object sender, EventArgs e)
         {
             subForm.Owner = this;
             subForm.Show();
@@ -338,25 +338,28 @@ namespace DigitalImageProcessing
                 b = (Bitmap)loadedImage.Clone();
             }
 
-            processedImage?.Dispose();
-            processedImage = new Bitmap(b.Width, b.Height);
-
             switch (currentFilter)
             {
                 case FilterType.GreyScale:
-                    BasicDIP.GreyscaleImage(ref b, ref processedImage);
-                    //ImageProcess2.BitmapFilter.GrayScale(b);
+                    //BasicDIP.GreyscaleImage(ref b, ref processedImage);
+                    BitmapFilter.GrayScale(b);
                     break;
                 case FilterType.Sepia:
-                    BasicDIP.SepiaImage(ref b, ref processedImage);
+                    //BasicDIP.SepiaImage(ref b, ref processedImage);
+                    BitmapFilter.Sepia(b);
                     break;
                 case FilterType.Inverted:
-                    BasicDIP.InvertImage(ref b, ref processedImage);
+                    //BasicDIP.InvertImage(ref b, ref processedImage);
+                    BitmapFilter.Invert(b);
                     break;
                 case FilterType.Histogram:
-                    BasicDIP.Histogram(ref b, ref processedImage);
+                    BasicDIP.Histogram(ref b, ref b);
                     break;
             }
+
+            processedImage?.Dispose();
+            //processedImage = new Bitmap(b.Width, b.Height);
+            processedImage = (Bitmap)b.Clone();
 
             pictureBox2.Image?.Dispose();
             pictureBox2.Image = processedImage;
@@ -428,6 +431,98 @@ namespace DigitalImageProcessing
         private void greyTimer_Tick(object sender, EventArgs e)
         {
             ProcessFrame();
+        }
+        
+        //Convolution Matrix Processes
+
+        private void smoothingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (loadedImage == null) return;
+
+            processedImage = new Bitmap(loadedImage);
+            BitmapFilter.Smooth(processedImage);
+            pictureBox2.Image = processedImage;
+        }
+
+        private void gaussianBlurToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (loadedImage == null) return;
+
+            processedImage = new Bitmap(loadedImage);
+            BitmapFilter.GaussianBlur(processedImage);
+            pictureBox2.Image = processedImage;
+        }
+
+        private void sharpenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (loadedImage == null) return;
+
+            processedImage = new Bitmap(loadedImage);
+            BitmapFilter.Sharpen(processedImage);
+            pictureBox2.Image = processedImage;
+        }
+
+        private void meanRemovalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (loadedImage == null) return;
+
+            processedImage = new Bitmap(loadedImage);
+            BitmapFilter.MeanRemoval(processedImage);
+            pictureBox2.Image = processedImage;
+        }
+
+        private void embossLaplascianToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (loadedImage == null) return;
+
+            processedImage = new Bitmap(loadedImage);
+            BitmapFilter.EmbossLaplacian(processedImage);
+            pictureBox2.Image = processedImage;
+        }
+
+        private void horizontalVerticalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (loadedImage == null) return;
+
+            processedImage = new Bitmap(loadedImage);
+            CustomEmbossFilter.EmbossHorzVert(processedImage);
+            pictureBox2.Image = processedImage;
+        }
+
+        private void allDirectionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (loadedImage == null) return;
+
+            processedImage = new Bitmap(loadedImage);
+            CustomEmbossFilter.EmbossAllDirections(processedImage);
+            pictureBox2.Image = processedImage;
+        }
+
+        private void lossyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (loadedImage == null) return;
+
+            processedImage = new Bitmap(loadedImage);
+            CustomEmbossFilter.EmbossLossy(processedImage);
+            pictureBox2.Image = processedImage;
+        }
+
+        private void horizontalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (loadedImage == null) return;
+
+            processedImage = new Bitmap(loadedImage);
+            CustomEmbossFilter.EmbossHorizontal(processedImage);
+            pictureBox2.Image = processedImage;
+        }
+
+        private void verticalOnlyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (loadedImage == null) return;
+
+            processedImage = new Bitmap(loadedImage);
+            CustomEmbossFilter.EmbossVertical(processedImage);
+            pictureBox2.Image = processedImage;
         }
     }
 }

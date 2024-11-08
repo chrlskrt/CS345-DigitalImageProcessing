@@ -1,6 +1,6 @@
 ﻿namespace DigitalImageProcessing
 {
-    partial class SubtractForm
+    partial class Part2
     {
         /// <summary>
         /// Required designer variable.
@@ -242,7 +242,7 @@
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "SubtractForm";
-            this.Text = "SubtractForm";
+            this.Text = "Part 2: Subtract Image Process";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SubtractForm_Closing);
             this.Load += new System.EventHandler(this.SubtractForm_Load);
             this.menuStrip1.ResumeLayout(false);

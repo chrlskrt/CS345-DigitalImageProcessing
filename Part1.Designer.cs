@@ -2,7 +2,7 @@
 
 namespace DigitalImageProcessing
 {
-    partial class Form1
+    partial class Part1
     {
         /// <summary>
         /// Required designer variable.
@@ -46,7 +46,6 @@ namespace DigitalImageProcessing
             this.brightnessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rotateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contrastToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.subtractToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.videoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.greyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.inversionToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -55,6 +54,8 @@ namespace DigitalImageProcessing
             this.webCamVidToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.oNToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.oFFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnGoToPart2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.part3ConvToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -70,6 +71,17 @@ namespace DigitalImageProcessing
             this.sepiaTimer = new System.Windows.Forms.Timer(this.components);
             this.invertTimer = new System.Windows.Forms.Timer(this.components);
             this.histTimer = new System.Windows.Forms.Timer(this.components);
+            this.smoothingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gaussianBlurToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sharpenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.meanRemovalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.embossingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.embossLaplascianToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.horizontalVerticalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.allDirectionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.lossyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.horizontalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.verticalOnlyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -85,7 +97,9 @@ namespace DigitalImageProcessing
             this.fileToolStripMenuItem,
             this.dIPToolStripMenuItem,
             this.videoToolStripMenuItem,
-            this.webCamVidToolStripMenuItem});
+            this.webCamVidToolStripMenuItem,
+            this.btnGoToPart2,
+            this.part3ConvToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1168, 28);
@@ -127,8 +141,7 @@ namespace DigitalImageProcessing
             this.histogramToolStripMenuItem,
             this.brightnessToolStripMenuItem,
             this.rotateToolStripMenuItem,
-            this.contrastToolStripMenuItem,
-            this.subtractToolStripMenuItem});
+            this.contrastToolStripMenuItem});
             this.dIPToolStripMenuItem.Name = "dIPToolStripMenuItem";
             this.dIPToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.dIPToolStripMenuItem.Text = "DIP";
@@ -203,13 +216,6 @@ namespace DigitalImageProcessing
             this.contrastToolStripMenuItem.Text = "Contrast";
             this.contrastToolStripMenuItem.Click += new System.EventHandler(this.contrastToolStripMenuItem_Click);
             // 
-            // subtractToolStripMenuItem
-            // 
-            this.subtractToolStripMenuItem.Name = "subtractToolStripMenuItem";
-            this.subtractToolStripMenuItem.Size = new System.Drawing.Size(223, 26);
-            this.subtractToolStripMenuItem.Text = "Subtract";
-            this.subtractToolStripMenuItem.Click += new System.EventHandler(this.subtractToolStripMenuItem_Click);
-            // 
             // videoToolStripMenuItem
             // 
             this.videoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -231,21 +237,21 @@ namespace DigitalImageProcessing
             // inversionToolStripMenuItem1
             // 
             this.inversionToolStripMenuItem1.Name = "inversionToolStripMenuItem1";
-            this.inversionToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
+            this.inversionToolStripMenuItem1.Size = new System.Drawing.Size(162, 26);
             this.inversionToolStripMenuItem1.Text = "Inversion";
             this.inversionToolStripMenuItem1.Click += new System.EventHandler(this.inversionToolStripMenuItem1_Click);
             // 
             // histogramToolStripMenuItem1
             // 
             this.histogramToolStripMenuItem1.Name = "histogramToolStripMenuItem1";
-            this.histogramToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
+            this.histogramToolStripMenuItem1.Size = new System.Drawing.Size(162, 26);
             this.histogramToolStripMenuItem1.Text = "Histogram";
             this.histogramToolStripMenuItem1.Click += new System.EventHandler(this.histogramToolStripMenuItem1_Click);
             // 
             // sepiaToolStripMenuItem1
             // 
             this.sepiaToolStripMenuItem1.Name = "sepiaToolStripMenuItem1";
-            this.sepiaToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
+            this.sepiaToolStripMenuItem1.Size = new System.Drawing.Size(162, 26);
             this.sepiaToolStripMenuItem1.Text = "Sepia";
             this.sepiaToolStripMenuItem1.Click += new System.EventHandler(this.sepiaToolStripMenuItem1_Click);
             // 
@@ -271,6 +277,25 @@ namespace DigitalImageProcessing
             this.oFFToolStripMenuItem.Size = new System.Drawing.Size(117, 26);
             this.oFFToolStripMenuItem.Text = "OFF";
             this.oFFToolStripMenuItem.Click += new System.EventHandler(this.oFFToolStripMenuItem_Click);
+            // 
+            // btnGoToPart2
+            // 
+            this.btnGoToPart2.Name = "btnGoToPart2";
+            this.btnGoToPart2.Size = new System.Drawing.Size(118, 24);
+            this.btnGoToPart2.Text = "Part2: Subtract";
+            this.btnGoToPart2.Click += new System.EventHandler(this.btnGoToPart2_Click);
+            // 
+            // part3ConvToolStripMenuItem
+            // 
+            this.part3ConvToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.smoothingToolStripMenuItem,
+            this.gaussianBlurToolStripMenuItem,
+            this.sharpenToolStripMenuItem,
+            this.meanRemovalToolStripMenuItem,
+            this.embossingToolStripMenuItem});
+            this.part3ConvToolStripMenuItem.Name = "part3ConvToolStripMenuItem";
+            this.part3ConvToolStripMenuItem.Size = new System.Drawing.Size(138, 24);
+            this.part3ConvToolStripMenuItem.Text = "Part3: ConvMatrix";
             // 
             // openFileDialog1
             // 
@@ -393,7 +418,90 @@ namespace DigitalImageProcessing
             this.histTimer.Interval = 1;
             this.histTimer.Tick += new System.EventHandler(this.histTimer_Tick);
             // 
-            // Form1
+            // smoothingToolStripMenuItem
+            // 
+            this.smoothingToolStripMenuItem.Name = "smoothingToolStripMenuItem";
+            this.smoothingToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.smoothingToolStripMenuItem.Text = "Smoothing";
+            this.smoothingToolStripMenuItem.Click += new System.EventHandler(this.smoothingToolStripMenuItem_Click);
+            // 
+            // gaussianBlurToolStripMenuItem
+            // 
+            this.gaussianBlurToolStripMenuItem.Name = "gaussianBlurToolStripMenuItem";
+            this.gaussianBlurToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.gaussianBlurToolStripMenuItem.Text = "Gaussian Blur";
+            this.gaussianBlurToolStripMenuItem.Click += new System.EventHandler(this.gaussianBlurToolStripMenuItem_Click);
+            // 
+            // sharpenToolStripMenuItem
+            // 
+            this.sharpenToolStripMenuItem.Name = "sharpenToolStripMenuItem";
+            this.sharpenToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.sharpenToolStripMenuItem.Text = "Sharpen";
+            this.sharpenToolStripMenuItem.Click += new System.EventHandler(this.sharpenToolStripMenuItem_Click);
+            // 
+            // meanRemovalToolStripMenuItem
+            // 
+            this.meanRemovalToolStripMenuItem.Name = "meanRemovalToolStripMenuItem";
+            this.meanRemovalToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.meanRemovalToolStripMenuItem.Text = "Mean Removal";
+            this.meanRemovalToolStripMenuItem.Click += new System.EventHandler(this.meanRemovalToolStripMenuItem_Click);
+            // 
+            // embossingToolStripMenuItem
+            // 
+            this.embossingToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.embossLaplascianToolStripMenuItem,
+            this.horizontalVerticalToolStripMenuItem,
+            this.allDirectionsToolStripMenuItem,
+            this.lossyToolStripMenuItem,
+            this.horizontalToolStripMenuItem,
+            this.verticalOnlyToolStripMenuItem});
+            this.embossingToolStripMenuItem.Name = "embossingToolStripMenuItem";
+            this.embossingToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.embossingToolStripMenuItem.Text = "Embossing";
+            // 
+            // embossLaplascianToolStripMenuItem
+            // 
+            this.embossLaplascianToolStripMenuItem.Name = "embossLaplascianToolStripMenuItem";
+            this.embossLaplascianToolStripMenuItem.Size = new System.Drawing.Size(225, 26);
+            this.embossLaplascianToolStripMenuItem.Text = "Emboss Laplascian";
+            this.embossLaplascianToolStripMenuItem.Click += new System.EventHandler(this.embossLaplascianToolStripMenuItem_Click);
+            // 
+            // horizontalVerticalToolStripMenuItem
+            // 
+            this.horizontalVerticalToolStripMenuItem.Name = "horizontalVerticalToolStripMenuItem";
+            this.horizontalVerticalToolStripMenuItem.Size = new System.Drawing.Size(225, 26);
+            this.horizontalVerticalToolStripMenuItem.Text = "Horizontal / Vertical";
+            this.horizontalVerticalToolStripMenuItem.Click += new System.EventHandler(this.horizontalVerticalToolStripMenuItem_Click);
+            // 
+            // allDirectionsToolStripMenuItem
+            // 
+            this.allDirectionsToolStripMenuItem.Name = "allDirectionsToolStripMenuItem";
+            this.allDirectionsToolStripMenuItem.Size = new System.Drawing.Size(225, 26);
+            this.allDirectionsToolStripMenuItem.Text = "All Directions";
+            this.allDirectionsToolStripMenuItem.Click += new System.EventHandler(this.allDirectionsToolStripMenuItem_Click);
+            // 
+            // lossyToolStripMenuItem
+            // 
+            this.lossyToolStripMenuItem.Name = "lossyToolStripMenuItem";
+            this.lossyToolStripMenuItem.Size = new System.Drawing.Size(225, 26);
+            this.lossyToolStripMenuItem.Text = "Lossy";
+            this.lossyToolStripMenuItem.Click += new System.EventHandler(this.lossyToolStripMenuItem_Click);
+            // 
+            // horizontalToolStripMenuItem
+            // 
+            this.horizontalToolStripMenuItem.Name = "horizontalToolStripMenuItem";
+            this.horizontalToolStripMenuItem.Size = new System.Drawing.Size(225, 26);
+            this.horizontalToolStripMenuItem.Text = "Horizontal Only";
+            this.horizontalToolStripMenuItem.Click += new System.EventHandler(this.horizontalToolStripMenuItem_Click);
+            // 
+            // verticalOnlyToolStripMenuItem
+            // 
+            this.verticalOnlyToolStripMenuItem.Name = "verticalOnlyToolStripMenuItem";
+            this.verticalOnlyToolStripMenuItem.Size = new System.Drawing.Size(225, 26);
+            this.verticalOnlyToolStripMenuItem.Text = "Vertical Only";
+            this.verticalOnlyToolStripMenuItem.Click += new System.EventHandler(this.verticalOnlyToolStripMenuItem_Click);
+            // 
+            // Part1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -409,8 +517,8 @@ namespace DigitalImageProcessing
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "Form1";
-            this.Text = "ImageProcessing";
+            this.Name = "Part1";
+            this.Text = "Part 1: Basic Image Processing w Conv Matrix Processes";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
@@ -450,7 +558,6 @@ namespace DigitalImageProcessing
         private System.Windows.Forms.ToolStripMenuItem webCamVidToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem oNToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem oFFToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem subtractToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem rotateToolStripMenuItem;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label rotationLBL;
@@ -466,6 +573,19 @@ namespace DigitalImageProcessing
         private Timer sepiaTimer;
         private Timer invertTimer;
         private Timer histTimer;
+        private ToolStripMenuItem btnGoToPart2;
+        private ToolStripMenuItem part3ConvToolStripMenuItem;
+        private ToolStripMenuItem smoothingToolStripMenuItem;
+        private ToolStripMenuItem gaussianBlurToolStripMenuItem;
+        private ToolStripMenuItem sharpenToolStripMenuItem;
+        private ToolStripMenuItem meanRemovalToolStripMenuItem;
+        private ToolStripMenuItem embossingToolStripMenuItem;
+        private ToolStripMenuItem embossLaplascianToolStripMenuItem;
+        private ToolStripMenuItem horizontalVerticalToolStripMenuItem;
+        private ToolStripMenuItem allDirectionsToolStripMenuItem;
+        private ToolStripMenuItem lossyToolStripMenuItem;
+        private ToolStripMenuItem horizontalToolStripMenuItem;
+        private ToolStripMenuItem verticalOnlyToolStripMenuItem;
     }
 }
 

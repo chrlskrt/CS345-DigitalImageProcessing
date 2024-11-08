@@ -7,14 +7,14 @@ using AForge.Video.DirectShow;
 
 namespace DigitalImageProcessing
 {
-    public partial class SubtractForm : Form
+    public partial class Part2 : Form
     {
         Bitmap imageB, imageA, resultImage;
         private bool isVideoOn = false;
         private FilterInfoCollection videoDevices;  // List of available video devices
         private VideoCaptureDevice videoSource;     // Video capture device
         private readonly object imageLock = new object();   // lock for thread safety
-        public SubtractForm()
+        public Part2()
         {
             InitializeComponent();
         }

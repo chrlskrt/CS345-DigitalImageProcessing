@@ -249,6 +249,47 @@ namespace DigitalImageProcessing
                     processedImage.SetPixel(xp, yp, loadedImage.GetPixel(xs, ys));
                 } 
             }
-        } 
+        }
+
+        private static Bitmap ResizeImage(Bitmap a, Bitmap b)
+        {
+            Bitmap resized = new Bitmap(b.Width, b.Height);
+            using (Graphics g = Graphics.FromImage(resized))
+            {
+                g.DrawImage(a, 0, 0, b.Width, b.Height);
+            }
+            return resized;
+        }
+
+        public static void SubtractImage(ref Bitmap imageB, ref Bitmap imageA, ref Bitmap resultImage, Color ChromaColor)
+        {
+            Bitmap b = (Bitmap)imageB.Clone();
+            Bitmap a = (Bitmap)imageA.Clone();
+            a = ResizeImage(a, b);
+
+            resultImage = new Bitmap(b.Width, b.Height);
+            Color subColor = ChromaColor;
+            int greySubColor = (subColor.R + subColor.G + subColor.B) / 3;
+            int threshold = 5;
+
+            for (int x = 0; x < b.Width; x++)
+            {
+                for (int y = 0; y < b.Height; y++)
+                {
+                    Color pixel = b.GetPixel(x, y);
+                    Color backpixel = a.GetPixel(x, y);
+                    int grey = (pixel.R + pixel.G + pixel.B) / 3;
+                    int subtractvalue = Math.Abs(grey - greySubColor);
+                    if (subtractvalue < threshold)
+                    {
+                        resultImage.SetPixel(x, y, backpixel);
+                    }
+                    else
+                    {
+                        resultImage.SetPixel(x, y, pixel);
+                    }
+                }
+            }
+        }
     }
 }

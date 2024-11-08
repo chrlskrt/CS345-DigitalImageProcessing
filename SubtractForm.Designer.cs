@@ -1,4 +1,4 @@
-﻿namespace SimpleImageProcessing
+﻿namespace DigitalImageProcessing
 {
     partial class SubtractForm
     {
@@ -28,11 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.backToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.vidONToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.vidOFFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
@@ -43,10 +46,16 @@
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
             this.btnSubtract = new System.Windows.Forms.Button();
+            this.subtractTimer = new System.Windows.Forms.Timer(this.components);
+            this.btnSelectColor = new System.Windows.Forms.Button();
+            this.ChromaColorBox = new System.Windows.Forms.PictureBox();
+            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            this.videoFilterOFFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ChromaColorBox)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -55,7 +64,10 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem1,
             this.backToolStripMenuItem,
-            this.fileToolStripMenuItem});
+            this.fileToolStripMenuItem,
+            this.vidONToolStripMenuItem,
+            this.vidOFFToolStripMenuItem,
+            this.videoFilterOFFToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1389, 28);
@@ -87,6 +99,19 @@
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.Size = new System.Drawing.Size(123, 26);
             this.saveToolStripMenuItem.Text = "Save";
+            // 
+            // vidONToolStripMenuItem
+            // 
+            this.vidONToolStripMenuItem.Name = "vidONToolStripMenuItem";
+            this.vidONToolStripMenuItem.Size = new System.Drawing.Size(88, 26);
+            this.vidONToolStripMenuItem.Text = "Video ON";
+            // 
+            // vidOFFToolStripMenuItem
+            // 
+            this.vidOFFToolStripMenuItem.Name = "vidOFFToolStripMenuItem";
+            this.vidOFFToolStripMenuItem.Size = new System.Drawing.Size(91, 24);
+            this.vidOFFToolStripMenuItem.Text = "Video OFF";
+            this.vidOFFToolStripMenuItem.Click += new System.EventHandler(this.vidOFFToolStripMenuItem_Click);
             // 
             // pictureBox1
             // 
@@ -168,11 +193,45 @@
             this.btnSubtract.UseVisualStyleBackColor = true;
             this.btnSubtract.Click += new System.EventHandler(this.btnSubtract_Click);
             // 
+            // subtractTimer
+            // 
+            this.subtractTimer.Interval = 1;
+            this.subtractTimer.Tick += new System.EventHandler(this.subtractTimer_Tick);
+            // 
+            // btnSelectColor
+            // 
+            this.btnSelectColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSelectColor.Location = new System.Drawing.Point(35, 56);
+            this.btnSelectColor.Name = "btnSelectColor";
+            this.btnSelectColor.Size = new System.Drawing.Size(171, 30);
+            this.btnSelectColor.TabIndex = 10;
+            this.btnSelectColor.Text = "Select Color";
+            this.btnSelectColor.UseVisualStyleBackColor = true;
+            this.btnSelectColor.Click += new System.EventHandler(this.btnSelectColor_Click);
+            // 
+            // ChromaColorBox
+            // 
+            this.ChromaColorBox.BackColor = System.Drawing.Color.Lime;
+            this.ChromaColorBox.Location = new System.Drawing.Point(213, 56);
+            this.ChromaColorBox.Name = "ChromaColorBox";
+            this.ChromaColorBox.Size = new System.Drawing.Size(30, 30);
+            this.ChromaColorBox.TabIndex = 11;
+            this.ChromaColorBox.TabStop = false;
+            // 
+            // videoFilterOFFToolStripMenuItem
+            // 
+            this.videoFilterOFFToolStripMenuItem.Name = "videoFilterOFFToolStripMenuItem";
+            this.videoFilterOFFToolStripMenuItem.Size = new System.Drawing.Size(128, 24);
+            this.videoFilterOFFToolStripMenuItem.Text = "Video Filter OFF";
+            this.videoFilterOFFToolStripMenuItem.Click += new System.EventHandler(this.videoFilterOFFToolStripMenuItem_Click);
+            // 
             // SubtractForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1389, 611);
+            this.Controls.Add(this.ChromaColorBox);
+            this.Controls.Add(this.btnSelectColor);
             this.Controls.Add(this.btnSubtract);
             this.Controls.Add(this.btnUploadImgA);
             this.Controls.Add(this.btnUploadImgB);
@@ -184,11 +243,14 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "SubtractForm";
             this.Text = "SubtractForm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SubtractForm_Closing);
+            this.Load += new System.EventHandler(this.SubtractForm_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ChromaColorBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -211,5 +273,12 @@
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.OpenFileDialog openFileDialog2;
         private System.Windows.Forms.Button btnSubtract;
+        private System.Windows.Forms.ToolStripMenuItem vidONToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem vidOFFToolStripMenuItem;
+        private System.Windows.Forms.Timer subtractTimer;
+        private System.Windows.Forms.Button btnSelectColor;
+        private System.Windows.Forms.PictureBox ChromaColorBox;
+        private System.Windows.Forms.ColorDialog colorDialog1;
+        private System.Windows.Forms.ToolStripMenuItem videoFilterOFFToolStripMenuItem;
     }
 }

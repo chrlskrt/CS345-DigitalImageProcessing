@@ -1,29 +1,51 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using DigitalImageProcessing;
+using AForge.Video;
+using AForge.Video.DirectShow;
 
-namespace SimpleImageProcessing
+namespace DigitalImageProcessing
 {
     public partial class SubtractForm : Form
     {
         Bitmap imageB, imageA, resultImage;
+        private bool isVideoOn = false;
+        private FilterInfoCollection videoDevices;  // List of available video devices
+        private VideoCaptureDevice videoSource;     // Video capture device
+        private readonly object imageLock = new object();   // lock for thread safety
         public SubtractForm()
         {
             InitializeComponent();
         }
+        private void SubtractForm_Load(object sender, EventArgs e)
+        {
+            LoadVideoDevices();
+        }
+
+        private void SubtractForm_Closing(object sender, FormClosingEventArgs e)
+        {
+            StopVideo();
+            this.Owner.Dispose();
+        }
 
         private void backToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            StopVideo();
             this.Hide();
             (this.Owner).Show();
+        }
+
+        private void btnUploadImg1_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.ShowDialog();
+        }
+
+        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
+        {
+            imageB = new Bitmap(openFileDialog1.FileName);
+            pictureBox1.Image = imageB;
+            isVideoOn = false;
         }
 
         private void btnUploadImg2_Click(object sender, EventArgs e)
@@ -39,43 +61,117 @@ namespace SimpleImageProcessing
 
         private void btnSubtract_Click(object sender, EventArgs e)
         {
-            resultImage = new Bitmap(imageB.Width, imageB.Height);
-            Color mygreen = Color.FromArgb(0, 0, 255);
-            int greygreen = (mygreen.R + mygreen.G + mygreen.B) / 3;
-            int threshold = 5;
+            if (imageA == null || imageB == null) return;
 
-            for (int x = 0; x < imageB.Width; x++)
+            if (isVideoOn)
             {
-                for (int y = 0; y < imageB.Height; y++)
-                {
-                    Color pixel = imageB.GetPixel(x, y);
-                    Color backpixel = imageA.GetPixel(x, y);
-                    int grey = (pixel.R + pixel.G + pixel.B) / 3;
-                    int subtractvalue = Math.Abs(grey - greygreen);
-                    if (subtractvalue < threshold)
-                    {
-                        resultImage.SetPixel(x, y, backpixel);
-                    } else
-                    {
-                        resultImage.SetPixel(x, y, pixel);
-                    }
-                }
+                subtractTimer.Enabled = true;
+            } else
+            {
+                BasicDIP.SubtractImage(ref imageB, ref imageA, ref resultImage, ChromaColorBox.BackColor);
+                pictureBox3.Image?.Dispose();
+                pictureBox3.Image = resultImage;
+            }
+        }
+
+        private void subtractTimer_Tick(object sender, EventArgs e)
+        {
+            Bitmap b;
+            lock (imageLock)
+            {
+                b = (Bitmap)imageB.Clone();
             }
 
+            resultImage?.Dispose();
+            resultImage = new Bitmap(b.Width, b.Height);
+
+            BasicDIP.SubtractImage(ref b, ref imageA, ref resultImage, ChromaColorBox.BackColor);
+
+            pictureBox3.Image?.Dispose();
             pictureBox3.Image = resultImage;
+
+            b.Dispose();
         }
 
-        private void btnUploadImg1_Click(object sender, EventArgs e)
+        //For Video 
+        private void LoadVideoDevices()
         {
-            openFileDialog1.ShowDialog();
+            videoDevices = new FilterInfoCollection(FilterCategory.VideoInputDevice);
+
+            if (videoDevices.Count == 0)
+            {
+                MessageBox.Show("No camera detected.");
+                return;
+            }
+
+            vidONToolStripMenuItem.DropDown.Items.Clear();
+
+            // Creating menu item for each video device
+            foreach (FilterInfo device in videoDevices)
+            {
+                ToolStripMenuItem deviceItem = new ToolStripMenuItem(device.Name);
+                deviceItem.Tag = device.MonikerString;
+                deviceItem.Click += StartVCDClick;
+                vidONToolStripMenuItem.DropDownItems.Add(deviceItem);
+            }
         }
 
-        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
+        private void StartVCDClick(object sender, EventArgs e)
         {
-            imageB = new Bitmap(openFileDialog1.FileName);
-            pictureBox1.Image = imageB;
+            StopVideo();
+
+            ToolStripMenuItem selectedItem = sender as ToolStripMenuItem;
+            string monikerString = selectedItem?.Tag.ToString();
+
+            if (monikerString != null)
+            {
+                videoSource = new VideoCaptureDevice(monikerString);
+                videoSource.NewFrame += VideoSource_NewFrame;
+                videoSource.Start();
+                isVideoOn = true;
+            }
         }
 
+        private void btnSelectColor_Click(object sender, EventArgs e)
+        {
+            if (colorDialog1.ShowDialog() == DialogResult.OK)
+            {
+                ChromaColorBox.BackColor = colorDialog1.Color;
+            }
+        }
 
+        private void vidOFFToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            StopVideo();
+        }
+
+        private void videoFilterOFFToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            subtractTimer.Stop();
+        }
+
+        private void VideoSource_NewFrame(object sender, NewFrameEventArgs e)
+        {
+            lock (imageLock)
+            {
+                imageB?.Dispose(); // dispose previous frame
+                imageB = (Bitmap)e.Frame.Clone(); // clone new frame
+            }
+
+            pictureBox1.Image?.Dispose(); // Dispose previous frame
+            pictureBox1.Image = (Bitmap)imageB.Clone();
+        }
+
+        private void StopVideo()
+        {
+            if (videoSource != null && videoSource.IsRunning)
+            {
+                videoSource.SignalToStop();
+                videoSource.WaitForStop();
+                videoSource = null;
+                isVideoOn = false;
+                subtractTimer.Stop();
+            }
+        }
     }
 }

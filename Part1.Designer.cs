@@ -93,8 +93,8 @@ namespace DigitalImageProcessing
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.dIPToolStripMenuItem,
-            this.videoToolStripMenuItem,
             this.webCamVidToolStripMenuItem,
+            this.videoToolStripMenuItem,
             this.btnGoToPart2,
             this.part3ConvToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
@@ -221,34 +221,34 @@ namespace DigitalImageProcessing
             this.VHistogramToolStripMenuItem,
             this.VSepiaToolStripMenuItem});
             this.videoToolStripMenuItem.Name = "videoToolStripMenuItem";
-            this.videoToolStripMenuItem.Size = new System.Drawing.Size(62, 24);
-            this.videoToolStripMenuItem.Text = "Video";
+            this.videoToolStripMenuItem.Size = new System.Drawing.Size(105, 24);
+            this.videoToolStripMenuItem.Text = "Video Filters";
             // 
             // VGreyToolStripMenuItem
             // 
             this.VGreyToolStripMenuItem.Name = "VGreyToolStripMenuItem";
-            this.VGreyToolStripMenuItem.Size = new System.Drawing.Size(162, 26);
+            this.VGreyToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.VGreyToolStripMenuItem.Text = "Grey";
             this.VGreyToolStripMenuItem.Click += new System.EventHandler(this.VGreyToolStripMenuItem_Click);
             // 
             // VInversionToolStripMenuItem
             // 
             this.VInversionToolStripMenuItem.Name = "VInversionToolStripMenuItem";
-            this.VInversionToolStripMenuItem.Size = new System.Drawing.Size(162, 26);
+            this.VInversionToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.VInversionToolStripMenuItem.Text = "Inversion";
             this.VInversionToolStripMenuItem.Click += new System.EventHandler(this.VInversionToolStripMenuItem_Click);
             // 
             // VHistogramToolStripMenuItem
             // 
             this.VHistogramToolStripMenuItem.Name = "VHistogramToolStripMenuItem";
-            this.VHistogramToolStripMenuItem.Size = new System.Drawing.Size(162, 26);
+            this.VHistogramToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.VHistogramToolStripMenuItem.Text = "Histogram";
             this.VHistogramToolStripMenuItem.Click += new System.EventHandler(this.VHistogramToolStripMenuItem_Click);
             // 
             // VSepiaToolStripMenuItem
             // 
             this.VSepiaToolStripMenuItem.Name = "VSepiaToolStripMenuItem";
-            this.VSepiaToolStripMenuItem.Size = new System.Drawing.Size(162, 26);
+            this.VSepiaToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.VSepiaToolStripMenuItem.Text = "Sepia";
             this.VSepiaToolStripMenuItem.Click += new System.EventHandler(this.VSepiaToolStripMenuItem_Click);
             // 
@@ -264,13 +264,13 @@ namespace DigitalImageProcessing
             // VideoOnToolStripMenuItem
             // 
             this.VideoOnToolStripMenuItem.Name = "VideoOnToolStripMenuItem";
-            this.VideoOnToolStripMenuItem.Size = new System.Drawing.Size(117, 26);
+            this.VideoOnToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.VideoOnToolStripMenuItem.Text = "ON";
             // 
             // oFFToolStripMenuItem
             // 
             this.oFFToolStripMenuItem.Name = "oFFToolStripMenuItem";
-            this.oFFToolStripMenuItem.Size = new System.Drawing.Size(117, 26);
+            this.oFFToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.oFFToolStripMenuItem.Text = "OFF";
             this.oFFToolStripMenuItem.Click += new System.EventHandler(this.VideoOFFToolStripMenuItem_Click);
             // 
@@ -433,7 +433,7 @@ namespace DigitalImageProcessing
             this.rotateTB.Size = new System.Drawing.Size(500, 56);
             this.rotateTB.TabIndex = 14;
             this.rotateTB.Visible = false;
-            this.rotateTB.Scroll += new System.EventHandler(rotateTB_Scroll);
+            this.rotateTB.Scroll += new System.EventHandler(this.rotateTB_Scroll);
             // 
             // contrastLBL
             // 
@@ -478,7 +478,7 @@ namespace DigitalImageProcessing
             this.brightnessTB.Size = new System.Drawing.Size(500, 56);
             this.brightnessTB.TabIndex = 10;
             this.brightnessTB.Visible = false;
-            this.brightnessTB.Scroll += new System.EventHandler(brightnessTB_Scroll);
+            this.brightnessTB.Scroll += new System.EventHandler(this.brightnessTB_Scroll);
             // 
             // vidFilterTimer
             // 

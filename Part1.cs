@@ -185,6 +185,7 @@ namespace DigitalImageProcessing
             }
         }
 
+        /* Main Image Processing */
         private void ProcessImageFilter(FilterType filterType)
         {
             if (loadedImage == null || isVideoOn)
@@ -294,6 +295,9 @@ namespace DigitalImageProcessing
                 StopVidFilters();
             }
         }
+
+        /* StopVidFilters() - will stop the previous video filter used (if there was any) to avoid program crash
+         * StartVidFilter() - will start a new video filter for the video */
         private void VGreyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             StopVidFilters();
@@ -320,6 +324,10 @@ namespace DigitalImageProcessing
 
         private void vidFilterTimer_Tick(object sender, EventArgs e)
         {
+            /* By enabling the timer, it will process each new frame 
+             * of the video at regular intervals specified by the timer's interval setting.
+             * For this project, the intervals is set to 100 */
+
             ProcessVideoFrameFilter();
         }
 

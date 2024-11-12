@@ -13,16 +13,20 @@ namespace DigitalImageProcessing
         GreyScale,
         Sepia,
         Inverted,
-        Histogram
+        Histogram,
+        Brightness,
+        Contrast,
+        MirrorVertical,
+        MirrorHorizontal,
+        Rotate
     }
     public partial class Part1 : Form
     {
         private Bitmap loadedImage, processedImage;
-        private Part2 subForm;
+        private Part2 part2Form;
         private bool isVideoOn = false;
         private bool isVidFilterOn = false;
         private FilterType currentFilter;
-        //Device[] devices;
         private FilterInfoCollection videoDevices;  // List of available video devices
         private VideoCaptureDevice videoSource;     // Video capture device
         private readonly object imageLock = new object();   // lock for thread safety
@@ -31,98 +35,23 @@ namespace DigitalImageProcessing
             InitializeComponent();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void Part1Form_Load(object sender, EventArgs e)
         {
-            subForm = new Part2();
+            part2Form = new Part2();
             LoadVideoDevices();
-            //devices = DeviceManager.GetAllDevices();
         }
 
-        private void LoadVideoDevices()
-        {
-            videoDevices = new FilterInfoCollection(FilterCategory.VideoInputDevice);
-
-            if (videoDevices.Count == 0)
-            {
-                MessageBox.Show("No camera detected.");
-                return;
-            }
-
-            oNToolStripMenuItem.DropDown.Items.Clear();
-
-            // Creating menu item for each video device
-            foreach (FilterInfo device in videoDevices)
-            {
-                ToolStripMenuItem deviceItem = new ToolStripMenuItem(device.Name);
-                deviceItem.Tag = device.MonikerString;
-                deviceItem.Click += StartVCDClick;
-                oNToolStripMenuItem.DropDownItems.Add(deviceItem);
-            }
-        }
-
-        private void StartVCDClick(object sender, EventArgs e)
+        private void Part1Form_Closing(object sender, FormClosingEventArgs e)
         {
             StopVideo();
-
-            ToolStripMenuItem selectedItem = sender as ToolStripMenuItem;
-            string monikerString = selectedItem?.Tag.ToString();
-
-            if (monikerString != null)
-            {
-                videoSource = new VideoCaptureDevice(monikerString);
-                videoSource.NewFrame += VideoSource_NewFrame;
-                videoSource.Start();
-                isVideoOn = true;
-            }
+            part2Form.Dispose();
         }
 
-        private void VideoSource_NewFrame(object sender, NewFrameEventArgs e)
+        private void btnGoToPart2_Click(object sender, EventArgs e)
         {
-            lock (imageLock)
-            {
-                loadedImage?.Dispose(); // dispose previous frame
-                loadedImage = (Bitmap)e.Frame.Clone(); // clone new frame
-            }
-
-            pictureBox1.Image?.Dispose(); // Dispose previous frame
-            pictureBox1.Image = (Bitmap)loadedImage.Clone();
-        }
-
-        private void StopVideo()
-        {
-            if (videoSource != null && videoSource.IsRunning)
-            {
-                videoSource.SignalToStop();
-                videoSource.WaitForStop();
-                videoSource = null;
-                isVideoOn = false;
-
-                StopVidFilters();
-            }
-        }
-
-        private void StopVidFilters()
-        {
-            if (isVidFilterOn)
-            {
-                greyTimer.Stop();
-                invertTimer.Stop();
-                sepiaTimer.Stop();
-                histTimer.Stop();
-
-                isVidFilterOn = false;
-            }
-        }
-
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            StopVideo();
-            subForm.Dispose();
-        }
-
-        private void oFFToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            StopVideo();
+            part2Form.Owner = this;
+            part2Form.Show();
+            this.Hide();
         }
 
         private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
@@ -151,7 +80,7 @@ namespace DigitalImageProcessing
             openFileDialog1.ShowDialog();
         }
 
-        //Digital Image Processing - Images
+        /* Digital Image Processing - Images */
         private void pixelCopyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (loadedImage == null || isVideoOn)
@@ -175,80 +104,36 @@ namespace DigitalImageProcessing
         }
         private void greyscaleToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (loadedImage == null || isVideoOn)
-            {
-                return;
-            }
-
-            BasicDIP.GreyscaleImage(ref loadedImage, ref processedImage);
-            //processedImage = (Bitmap) loadedImage.Clone();
-            //BitmapFilter.GrayScale(processedImage);
-            pictureBox2.Image = processedImage;
+            ProcessImageFilter(FilterType.GreyScale);
         }
         private void inversionToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (loadedImage == null || isVideoOn)
-            {
-                return;
-            }
-
-            BasicDIP.InvertImage(ref loadedImage, ref processedImage);
-            pictureBox2.Image = processedImage;
+            ProcessImageFilter(FilterType.Inverted);
         }
 
         private void sepiaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (loadedImage == null || isVideoOn)
-            {
-                return;
-            }
-
-            BasicDIP.SepiaImage(ref loadedImage, ref processedImage);
-            pictureBox2.Image = processedImage;
+            ProcessImageFilter(FilterType.Sepia);
         }
 
         private void mirrorHorizontalToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (loadedImage == null || isVideoOn)
-            {
-                return;
-            }
-
-            BasicDIP.MirrorImageHorizantal(ref loadedImage, ref processedImage);
-            pictureBox2.Image = processedImage;
+            ProcessImageFilter(FilterType.MirrorHorizontal);
         }
 
         private void mirrorVerticalToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (loadedImage == null)
-            {
-                return;
-            }
-
-            BasicDIP.MirrorImageVertical(ref loadedImage, ref processedImage);
-            pictureBox2.Image = processedImage;
+            ProcessImageFilter(FilterType.MirrorVertical);
         }
 
         private void histogramToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (loadedImage == null || isVideoOn)
-            {
-                return;
-            }
-
-            BasicDIP.Histogram(ref loadedImage, ref processedImage);
-            pictureBox2.Image = processedImage;
+            ProcessImageFilter(FilterType.Histogram);
         }
 
-        private void trackBar1_Scroll(object sender, EventArgs e)
+        private void brightnessTB_Scroll(object sender, EventArgs e)
         {
-            if (loadedImage == null || isVideoOn)
-            {
-                return;
-            }
-
-            BasicDIP.Brightness(ref loadedImage, ref processedImage, brightnessTB.Value);
-            pictureBox2.Image = processedImage;
+            ProcessImageFilter(FilterType.Brightness);
         }
 
         private void brightnessToolStripMenuItem_Click(object sender, EventArgs e)
@@ -264,6 +149,11 @@ namespace DigitalImageProcessing
             }
         }
 
+        private void contrastTB_Scroll(object sender, EventArgs e)
+        {
+            ProcessImageFilter(FilterType.Contrast);
+        }
+
         private void contrastToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (contrastTB.Visible)
@@ -277,33 +167,9 @@ namespace DigitalImageProcessing
             }
         }
 
-        private void contrastTB_Scroll(object sender, EventArgs e)
-        {
-            if (loadedImage == null || isVideoOn)
-            {
-                return;
-            }
-
-            BasicDIP.Contrast(ref loadedImage, ref processedImage, contrastTB.Value);
-            pictureBox2.Image = processedImage;
-        }
-
         private void rotateTB_Scroll(object sender, EventArgs e)
         {
-            if (loadedImage == null || isVideoOn)
-            {
-                return;
-            }
-
-            BasicDIP.RotateImage(ref loadedImage, ref processedImage, rotateTB.Value);
-            pictureBox2.Image = processedImage;
-        }
-
-        private void btnGoToPart2_Click(object sender, EventArgs e)
-        {
-            subForm.Owner = this;
-            subForm.Show();
-            this.Hide();
+            ProcessImageFilter(FilterType.Rotate);
         }
 
         private void rotateToolStripMenuItem_Click(object sender, EventArgs e)
@@ -319,13 +185,165 @@ namespace DigitalImageProcessing
             }
         }
 
-        private void oNToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ProcessImageFilter(FilterType filterType)
         {
-            //devices[0].ShowWindow(pictureBox1);
+            if (loadedImage == null || isVideoOn)
+            {
+                return;
+            }
+
+            switch (filterType)
+            {
+                case FilterType.GreyScale:
+                    BasicDIP.GreyscaleImage(ref loadedImage, ref processedImage);
+                    break;
+                case FilterType.Sepia:
+                    BasicDIP.SepiaImage(ref loadedImage, ref processedImage);
+                    break;
+                case FilterType.Inverted:
+                    BasicDIP.InvertImage(ref loadedImage, ref processedImage);
+                    break;
+                case FilterType.Histogram:
+                    BasicDIP.Histogram(ref loadedImage, ref processedImage);
+                    break;
+                case FilterType.Brightness:
+                    //BasicDIP.Brightness(ref loadedImage, ref processedImage, brightnessTB.Value);
+                    processedImage = (Bitmap)loadedImage.Clone();
+                    BitmapFilter.Brightness(processedImage, brightnessTB.Value);
+                    break;
+                case FilterType.Contrast:
+                    BasicDIP.Contrast(ref loadedImage, ref processedImage, contrastTB.Value);
+                    break;
+                case FilterType.Rotate:
+                    BasicDIP.RotateImage(ref loadedImage, ref processedImage, rotateTB.Value);
+                    break;
+            }
+
+            pictureBox2.Image = processedImage;
         }
 
-        //For WebCam Filters
-        private void ProcessFrame()
+        /* Digital Image Processing - Video */
+        /* Loading all video devices as options */
+        private void LoadVideoDevices()
+        {
+            videoDevices = new FilterInfoCollection(FilterCategory.VideoInputDevice);
+
+            if (videoDevices.Count == 0)
+            {
+                MessageBox.Show("No camera detected.");
+                return;
+            }
+
+            VideoOnToolStripMenuItem.DropDown.Items.Clear();
+
+            // Creating menu item for each video device
+            foreach (FilterInfo device in videoDevices)
+            {
+                ToolStripMenuItem deviceItem = new ToolStripMenuItem(device.Name);
+                deviceItem.Tag = device.MonikerString;
+                deviceItem.Click += StartVCDClick;
+                VideoOnToolStripMenuItem.DropDownItems.Add(deviceItem);
+            }
+        }
+
+        /* Function for turning ON the video */
+        private void StartVCDClick(object sender, EventArgs e)
+        {
+            StopVideo();
+
+            /* Getting the selected video device option */
+            ToolStripMenuItem selectedItem = sender as ToolStripMenuItem;
+            string monikerString = selectedItem?.Tag.ToString();
+
+            if (monikerString != null)
+            {
+                videoSource = new VideoCaptureDevice(monikerString);
+                videoSource.NewFrame += VideoSource_NewFrame;
+                videoSource.Start();
+                isVideoOn = true;
+            }
+        }
+
+        private void VideoOFFToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            StopVideo();
+        }
+
+
+        private void VideoSource_NewFrame(object sender, NewFrameEventArgs e)
+        {
+            lock (imageLock)
+            {
+                loadedImage?.Dispose(); // dispose previous frame
+                loadedImage = (Bitmap)e.Frame.Clone(); // clone new frame
+            }
+
+            pictureBox1.Image?.Dispose(); // Dispose previous frame
+            pictureBox1.Image = (Bitmap)loadedImage.Clone();
+        }
+
+        private void StopVideo()
+        {
+            if (videoSource != null && videoSource.IsRunning)
+            {
+                videoSource.SignalToStop();
+                videoSource.WaitForStop();
+                videoSource = null;
+                isVideoOn = false;
+
+                StopVidFilters();
+            }
+        }
+        private void VGreyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            StopVidFilters();
+            StartVidFilter(FilterType.GreyScale);
+        }
+
+        private void VInversionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            StopVidFilters();
+            StartVidFilter(FilterType.Inverted);
+        }
+
+        private void VHistogramToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            StopVidFilters();
+            StartVidFilter(FilterType.Histogram);
+        }
+
+        private void VSepiaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            StopVidFilters();
+            StartVidFilter(FilterType.Sepia);
+        }
+
+        private void vidFilterTimer_Tick(object sender, EventArgs e)
+        {
+            ProcessVideoFrameFilter();
+        }
+
+        private void StartVidFilter(FilterType filterType)
+        {
+            if (isVideoOn)
+            {
+                currentFilter = filterType;
+                isVidFilterOn = true;
+                vidFilterTimer.Enabled = true;
+            }
+        }
+
+        private void StopVidFilters()
+        {
+            if (isVidFilterOn)
+            {
+                vidFilterTimer.Stop();
+                isVidFilterOn = false;
+            }
+        }
+
+        /* For processing filters onto video */
+        private void ProcessVideoFrameFilter()
         {
             if (loadedImage == null)
             {
@@ -358,82 +376,16 @@ namespace DigitalImageProcessing
             }
 
             processedImage?.Dispose();
-            //processedImage = new Bitmap(b.Width, b.Height);
             processedImage = (Bitmap)b.Clone();
 
             pictureBox2.Image?.Dispose();
             pictureBox2.Image = processedImage;
-            //pictureBox2.Image = b;
 
             b.Dispose();
         }
 
-        //WebCam
-        private void greyToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            StopVidFilters();
 
-            if (!greyTimer.Enabled && isVideoOn)
-            {
-                currentFilter = FilterType.GreyScale;
-                isVidFilterOn = true;
-                greyTimer.Enabled = true;
-            }
-        }
-
-        private void inversionToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            StopVidFilters();
-
-            if (!invertTimer.Enabled && isVideoOn)
-            {
-                currentFilter = FilterType.Inverted;
-                isVidFilterOn = true;
-                invertTimer.Enabled = true;
-            }
-        }
-
-        private void histogramToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            if (!histTimer.Enabled && isVideoOn)
-            {
-                currentFilter = FilterType.Histogram;
-                isVidFilterOn = true;
-                histTimer.Enabled = true;
-            }
-        }
-
-        private void sepiaToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            if (!sepiaTimer.Enabled && isVideoOn)
-            {
-                currentFilter = FilterType.Sepia;
-                isVidFilterOn = true;
-                sepiaTimer.Enabled = true;
-            }
-        }
-
-        private void sepiaTimer_Tick(object sender, EventArgs e)
-        {
-            ProcessFrame();
-        }
-
-        private void invertTimer_Tick(object sender, EventArgs e)
-        {
-            ProcessFrame();
-        }
-
-        private void histTimer_Tick(object sender, EventArgs e)
-        {
-            ProcessFrame();
-        }
-
-        private void greyTimer_Tick(object sender, EventArgs e)
-        {
-            ProcessFrame();
-        }
-        
-        //Convolution Matrix Processes
+        // Convolution Matrix Processes
 
         private void smoothingToolStripMenuItem_Click(object sender, EventArgs e)
         {

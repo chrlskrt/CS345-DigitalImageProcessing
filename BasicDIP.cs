@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.Drawing.Imaging;
+using System.Security.Cryptography;
+using ImageProcess2;
 
 namespace DigitalImageProcessing
 {
@@ -290,6 +286,41 @@ namespace DigitalImageProcessing
                     }
                 }
             }
+        }
+
+        public static void Threshold(ref Bitmap a, int thresholdNum)
+        {
+            // Apply Grayscale to image
+            BitmapFilter.GrayScale(a);
+
+            if (thresholdNum < 0 || thresholdNum > 255)
+                return;
+
+            int dstHeight = a.Height;
+            int dstWidth = a.Width;
+
+            BitmapData bmA = a.LockBits(
+                new Rectangle(0, 0, dstWidth, dstHeight),
+                ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb
+                );
+
+            unsafe
+            {
+                int paddingA = bmA.Stride - dstWidth * 3;
+
+                byte* pA = (byte*) bmA.Scan0;
+
+                for (int i = 0;
+                    i < a.Height;
+                    i++, pA += paddingA, pA += paddingA)
+
+                    for (int j = 0;
+                        j < a.Width;
+                        j++, pA += 3)
+                        pA[0] = pA[1] = pA[2] = (byte)( pA[0] < thresholdNum ? 0 : 255);
+            }
+
+            a.UnlockBits(bmA);
         }
     }
 }

@@ -46,14 +46,14 @@ namespace DigitalImageProcessing
             this.brightnessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rotateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contrastToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.webCamVidToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.VideoOnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.oFFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.videoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.VGreyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.VInversionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.VHistogramToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.VSepiaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.webCamVidToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.VideoOnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.oFFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnGoToPart2 = new System.Windows.Forms.ToolStripMenuItem();
             this.part3ConvToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.smoothingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -79,6 +79,7 @@ namespace DigitalImageProcessing
             this.brightnessLBL = new System.Windows.Forms.Label();
             this.brightnessTB = new System.Windows.Forms.TrackBar();
             this.vidFilterTimer = new System.Windows.Forms.Timer(this.components);
+            this.coinsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -96,7 +97,8 @@ namespace DigitalImageProcessing
             this.webCamVidToolStripMenuItem,
             this.videoToolStripMenuItem,
             this.btnGoToPart2,
-            this.part3ConvToolStripMenuItem});
+            this.part3ConvToolStripMenuItem,
+            this.coinsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1168, 28);
@@ -213,6 +215,28 @@ namespace DigitalImageProcessing
             this.contrastToolStripMenuItem.Text = "Contrast";
             this.contrastToolStripMenuItem.Click += new System.EventHandler(this.contrastToolStripMenuItem_Click);
             // 
+            // webCamVidToolStripMenuItem
+            // 
+            this.webCamVidToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.VideoOnToolStripMenuItem,
+            this.oFFToolStripMenuItem});
+            this.webCamVidToolStripMenuItem.Name = "webCamVidToolStripMenuItem";
+            this.webCamVidToolStripMenuItem.Size = new System.Drawing.Size(139, 24);
+            this.webCamVidToolStripMenuItem.Text = "WebCam Options";
+            // 
+            // VideoOnToolStripMenuItem
+            // 
+            this.VideoOnToolStripMenuItem.Name = "VideoOnToolStripMenuItem";
+            this.VideoOnToolStripMenuItem.Size = new System.Drawing.Size(117, 26);
+            this.VideoOnToolStripMenuItem.Text = "ON";
+            // 
+            // oFFToolStripMenuItem
+            // 
+            this.oFFToolStripMenuItem.Name = "oFFToolStripMenuItem";
+            this.oFFToolStripMenuItem.Size = new System.Drawing.Size(117, 26);
+            this.oFFToolStripMenuItem.Text = "OFF";
+            this.oFFToolStripMenuItem.Click += new System.EventHandler(this.VideoOFFToolStripMenuItem_Click);
+            // 
             // videoToolStripMenuItem
             // 
             this.videoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -251,28 +275,6 @@ namespace DigitalImageProcessing
             this.VSepiaToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.VSepiaToolStripMenuItem.Text = "Sepia";
             this.VSepiaToolStripMenuItem.Click += new System.EventHandler(this.VSepiaToolStripMenuItem_Click);
-            // 
-            // webCamVidToolStripMenuItem
-            // 
-            this.webCamVidToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.VideoOnToolStripMenuItem,
-            this.oFFToolStripMenuItem});
-            this.webCamVidToolStripMenuItem.Name = "webCamVidToolStripMenuItem";
-            this.webCamVidToolStripMenuItem.Size = new System.Drawing.Size(139, 24);
-            this.webCamVidToolStripMenuItem.Text = "WebCam Options";
-            // 
-            // VideoOnToolStripMenuItem
-            // 
-            this.VideoOnToolStripMenuItem.Name = "VideoOnToolStripMenuItem";
-            this.VideoOnToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.VideoOnToolStripMenuItem.Text = "ON";
-            // 
-            // oFFToolStripMenuItem
-            // 
-            this.oFFToolStripMenuItem.Name = "oFFToolStripMenuItem";
-            this.oFFToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.oFFToolStripMenuItem.Text = "OFF";
-            this.oFFToolStripMenuItem.Click += new System.EventHandler(this.VideoOFFToolStripMenuItem_Click);
             // 
             // btnGoToPart2
             // 
@@ -484,6 +486,13 @@ namespace DigitalImageProcessing
             // 
             this.vidFilterTimer.Tick += new System.EventHandler(this.vidFilterTimer_Tick);
             // 
+            // coinsToolStripMenuItem
+            // 
+            this.coinsToolStripMenuItem.Name = "coinsToolStripMenuItem";
+            this.coinsToolStripMenuItem.Size = new System.Drawing.Size(63, 24);
+            this.coinsToolStripMenuItem.Text = "Coins ";
+            this.coinsToolStripMenuItem.Click += new System.EventHandler(this.coinsToolStripMenuItem_Click);
+            // 
             // Part1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -566,6 +575,7 @@ namespace DigitalImageProcessing
         private ToolStripMenuItem horizontalToolStripMenuItem;
         private ToolStripMenuItem verticalOnlyToolStripMenuItem;
         private Timer vidFilterTimer;
+        private ToolStripMenuItem coinsToolStripMenuItem;
     }
 }
 

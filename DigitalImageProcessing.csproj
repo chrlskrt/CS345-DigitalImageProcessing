@@ -64,8 +64,8 @@
     <Reference Include="AForge.Video.DirectShow, Version=2.2.5.0, Culture=neutral, PublicKeyToken=61ea4348d43881b7, processorArchitecture=MSIL">
       <HintPath>packages\AForge.Video.DirectShow.2.2.5\lib\AForge.Video.DirectShow.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Win32.SystemEvents, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.Win32.SystemEvents.8.0.0\lib\net462\Microsoft.Win32.SystemEvents.dll</HintPath>
+    <Reference Include="Microsoft.Win32.SystemEvents, Version=9.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Win32.SystemEvents.9.0.0\lib\net462\Microsoft.Win32.SystemEvents.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -93,6 +93,12 @@
   <ItemGroup>
     <Compile Include="BasicDIP.cs" />
     <Compile Include="CITLIBFilters.cs" />
+    <Compile Include="CoinsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CoinsForm.Designer.cs">
+      <DependentUpon>CoinsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Device.cs" />
     <Compile Include="DeviceManager.cs" />
     <Compile Include="CustomEmbossFilter.cs" />
@@ -110,6 +116,9 @@
     <Compile Include="Part2.Designer.cs">
       <DependentUpon>Part2.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="CoinsForm.resx">
+      <DependentUpon>CoinsForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Part1.resx">
       <DependentUpon>Part1.cs</DependentUpon>
     </EmbeddedResource>
@@ -139,6 +148,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="static\coins.jpeg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

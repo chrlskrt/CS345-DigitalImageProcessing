@@ -24,6 +24,7 @@ namespace DigitalImageProcessing
     {
         private Bitmap loadedImage, processedImage;
         private Part2 part2Form;
+        private CoinsForm coinsForm;
         private bool isVideoOn = false;
         private bool isVidFilterOn = false;
         private FilterType currentFilter;
@@ -38,6 +39,7 @@ namespace DigitalImageProcessing
         private void Part1Form_Load(object sender, EventArgs e)
         {
             part2Form = new Part2();
+            coinsForm = new CoinsForm();
             LoadVideoDevices();
         }
 
@@ -45,12 +47,20 @@ namespace DigitalImageProcessing
         {
             StopVideo();
             part2Form.Dispose();
+            coinsForm.Dispose();
         }
 
         private void btnGoToPart2_Click(object sender, EventArgs e)
         {
             part2Form.Owner = this;
             part2Form.Show();
+            this.Hide();
+        }
+
+        private void coinsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            coinsForm.Owner = this;
+            coinsForm.Show();
             this.Hide();
         }
 
@@ -353,7 +363,7 @@ namespace DigitalImageProcessing
         /* For processing filters onto video */
         private void ProcessVideoFrameFilter()
         {
-            if (loadedImage == null)
+            if (loadedImage == null || !isVideoOn)
             {
                 return;
             }
